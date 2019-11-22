@@ -1,0 +1,138 @@
+.CarPlate_head {
+    width: 100%;
+    height: 160px;
+    background-image: url('../../staticfile/images/xqw/head.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.CarPlate_Left {
+    display: inline-block;
+    background-image: url('../../staticfile/images/09CarPlate/left.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 60px;
+    height: 60px;
+    margin: 40px 40px 0 40px;
+    cursor: pointer;
+}
+
+.CarPlate_Home {
+    display: inline-block;
+    width:  auto;
+    height: 60px;
+    margin: 140px 0 0 0;
+    /* background-image: url('../../staticfile/images/09CarPlate/home.png'); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.time1 {
+    position: fixed;
+    right: 90px;
+    top: 34px;
+}
+
+.time2 {
+    position: fixed;
+    right: 240px;
+    top: 32px;
+}
+
+.RealTime2 {
+    color: white;
+    font-size: 40px;
+    font-family: 微软雅黑;
+}
+
+.RealTime1 {
+    color: white;
+    font-size: 44px;
+    font-family: 微软雅黑;
+}
+
+.PayTitle {
+    padding: 80px 120px;
+    letter-spacing: 2px;
+    font-size: 30px;
+    color: #fff;
+}
+.first-whiteback{
+    margin-top: 100px;
+}
+
+.PayTitle span {
+    padding: 0px 30px;
+    color: #F1F719;
+}
+
+.modal-pay {
+    height: 450px;
+    width: 550px;
+    background-color: #fff;
+    position: relative;
+    border-radius: 10px;
+}
+
+.QrCode {
+    height: 240px;
+    width: 240px;
+    margin: 50px auto;
+    background-color: #eee;
+}
+
+.finish-pay {
+    text-align: center;
+    font-size: 40px;
+    font-family: "微软雅黑";
+}
+
+#Treatment .selectArea {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 140px;
+}
+
+#Treatment .selectArea img {
+    width: 500px;
+    height: 500px;
+}
+
+
+/* #Treatment .largers {
+    box-shadow: 0px 4px 10px #a0edff;
+    border-radius: 15px;
+}
+
+#Treatment .largers:hover {
+    -moz-box-shadow: 0px 4px 10px #a0edff;
+    -webkit-box-shadow: 0px 4px 10px #a0edff;
+    box-shadow: 0px 4px 10px #a0edff; 
+    transform: scale(1.1);
+    transition: all 1.0s;
+} */
+
+.btn-cancel {
+    width: 140px;
+    height: 50px;
+    margin-top: -100px;
+    color: #0C88FF;
+    border: 1px solid #0C88FF;
+    font-size: 20px;
+    background-color: #fff;
+    font-family: "微软雅黑";
+    border-radius: 8px;
+}
+
+.btn-sure {
+    width: 140px;
+    height: 50px;
+    margin-top: -100px;
+    margin-left: 60px;
+    background: linear-gradient(to right, #0D89FF, #006CFF);
+    color: #fff;
+    font-size: 20px;
+    font-family: "微软雅黑";
+    border-radius: 8px;
+}

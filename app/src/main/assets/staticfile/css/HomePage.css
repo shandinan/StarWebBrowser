@@ -1,0 +1,212 @@
+body {
+    font-family: "Times New Roman", Times, serif;
+    background: url(../../staticfile/images/background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+html, body {
+    /* width: 1280px; */
+    /* height: 1024px; */
+    /* background-color: #DADAE1; */
+    /* margin: 0px auto; */
+    font-family: "Times New Roman", Times, serif;
+    /* background: url(../images/HomePage.png); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100%;
+}  
+
+.mask {
+    position: absolute;
+    top: 0px;
+    filter: alpha(opacity=60);
+    z-index: 1002;
+    margin: 0px auto;
+    opacity: 0.9;
+    -moz-opacity: 0.9;
+}
+
+.modal-h {
+    margin: 0;
+    padding-bottom: 10px;
+    text-align: center;
+    color: white;
+    font-weight: 800;
+    font-family: '微软雅黑';
+    font-size: 50px;
+    letter-spacing: 8px;
+}
+
+.indicate {
+    position: fixed;
+    bottom: 30px;
+    width: 100%;
+    text-align: center;
+    color: #808080;
+    font-size: 24px;
+    font-family: "黑体";
+}
+
+
+
+.seletType {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 140px;
+}
+
+.seletType .col {
+    border-radius: 5px;
+    width: 360px;
+    margin: 0 10px;
+}
+
+.seletType .col img {
+    width: 100%;
+    box-shadow: 0px 10px 20px #cccccc;
+    border-radius: 15px;
+}
+
+
+.larger:hover {
+    -moz-box-shadow: 0px 10px 20px #a0edff;
+    -webkit-box-shadow: 0px 10px 20px #a0edff;
+    box-shadow: 0px 10px 20px #a0edff;
+    transform: scale(1.1);
+    transition: all 1.0s;
+}
+
+
+.nowTime {
+    position: fixed;
+    right: 60px;
+    top: 120px;
+}
+
+
+.knowBtn {
+    background: -webkit-linear-gradient(right, #0D89FF, #0069FF);
+    /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, #0D89FF, #0069FF);
+    /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, #0D89FF, #0069FF);
+    /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, #0D89FF, #0069FF);
+    /* 标准的语法 */
+    font-family: "微软雅黑";
+    font-size: 18px;
+    letter-spacing: 3px;
+    border-radius: 8px;
+}
+
+.header {
+    position: relative;
+    width: 100%;
+    height: 136px;
+}
+.logos {
+    position: absolute;
+    left: 93px;
+    top: 25px;
+    width: 132px;
+    height: 136px;
+    margin: 15px;
+}
+.boder{
+    position:relative;
+    width:100%;
+    height:auto;
+}
+.boder-left {
+    position: relative;
+    left: 230px;
+    top: 160px;
+    width: 480px;
+    height: 750px;
+    float: left;
+}
+.header-photo {
+    width: 480px;
+    height: 600px;
+}
+.header-gh {
+    width: 480px;
+    color: white;
+    font-size: 76px;
+    font-family: 微软雅黑;
+    align-content: center;
+    margin-top: 26px;
+    font-weight: 500;
+    opacity: 0.8;
+}
+.boder-right {
+    position: relative;
+    right: 6%;
+    top: 100px;
+    width: 920px;
+    height: 750px;
+    float: right;
+    text-align: center
+}
+.right-window{
+    margin:0 auto;
+    height:236px;
+    width:100%;
+    margin-top:0px;
+    padding:0 0;
+}
+.window-no {
+    height: 234px;
+    font-size: 317px;
+    font-family: 微软雅黑;
+    font-weight: lighter;
+    color: rgba(255,255,255,1);
+    opacity: 0.9;
+    float: left;
+    margin-left: 100px;
+}
+.window-name {
+    width:470px;
+    height: 236px;
+    float:left;
+    margin-top:100px;
+    margin-left:10px;
+    background-image:url("../images/rec.png");
+}
+.window_name-info {
+    position: relative;
+    left: 6px;
+    top: 28px;
+    font-size: 120px;
+    font-family: 微软雅黑;
+    font-weight: bold;
+    color: rgba(255,255,255,1);
+}
+
+.right-queue{
+    width:920px;
+    height:120px;
+    text-align:center;
+    margin-top:190px;
+}
+.queue-qh {
+    font-size: 166px;
+    font-family: 微软雅黑;
+    font-weight: bold;
+    color: rgba(255,255,255,1);
+    opacity: 0.9;
+}
+.queue-num {
+    font-size: 190px;
+    font-family: 微软雅黑;
+    font-weight: bold;
+    color: #FFD40E;
+    opacity: 0.9;
+}
+
+
+
+
