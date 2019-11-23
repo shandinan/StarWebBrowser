@@ -105,7 +105,6 @@ public class SuperActivity extends Activity implements View.OnClickListener {
             case KeyEvent.KEYCODE_VOLUME_MUTE: //禁用声音
                 Log.d(TAG,"voice mute--->");
                 break;
-            break;
             default:
                 break;
         }
