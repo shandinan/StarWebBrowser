@@ -18,16 +18,15 @@ import com.google.gson.Gson;
 import com.star.starwebbrowser.R;
 import com.star.starwebbrowser.save.SPUtils;
 
-public class MainActivity  extends SuperActivity implements View.OnClickListener {
+public class MainActivity extends SuperActivity implements View.OnClickListener {
     private final String TAG = "MainActivity";
     BridgeWebView webView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         webView = (BridgeWebView) findViewById(R.id.webView);
-
         /* ** 配置浏览器缓存*/
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setAppCacheMaxSize(1024 * 1024 * 8);
@@ -38,9 +37,7 @@ public class MainActivity  extends SuperActivity implements View.OnClickListener
         webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         webView.getSettings().setAppCacheEnabled(true);
         /* ** 配置浏览器缓存*/
-
         webView.setDefaultHandler(new DefaultHandler());
-
         webView.setWebChromeClient(new WebChromeClient() {
 
         });
@@ -48,12 +45,10 @@ public class MainActivity  extends SuperActivity implements View.OnClickListener
         webView.loadUrl("file:///android_asset/start.html");
         // webView.loadUrl("http://122.193.27.194:2000/PDAInspection/AppH5/start.html");
         //webView.loadUrl("http://192.168.1.58:8017/start.html");
-
         /* * ** 注册供 JS调用的 ScanQR 打开二维码扫描界面** **/
         webView.registerHandler("ScanQR", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
-
                 function.onCallBack("Response_sdn"); //响应JS请求
             }
         });
@@ -68,23 +63,10 @@ public class MainActivity  extends SuperActivity implements View.OnClickListener
             }
         });
 
-
-        /**
-         * 读取保存的数据
-         * 参数 key
-         */
-        webView.registerHandler("ReadStr", new BridgeHandler() {
-            @Override
-            public void handler(String data, CallBackFunction function) {
-                String strValue = SPUtils.readString(MainActivity.this, data);
-                function.onCallBack(strValue);
-            }
-        });
-
-
         webView.send("start");
-
     }
+
+
 
 
 }

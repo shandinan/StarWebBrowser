@@ -6,9 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import com.star.starwebbrowser.activity.MainActivity;
 
-public class sdnReceiver extends BroadcastReceiver {
+public class bootReceiver extends BroadcastReceiver {
 
-    public sdnReceiver() {
+    public bootReceiver() {
     }
 
     @Override

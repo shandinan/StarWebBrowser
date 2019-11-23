@@ -50,7 +50,7 @@
         </activity>
 
         <receiver
-                android:name=".service.sdnReceiver">
+                android:name=".service.bootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED">
                 </action>
