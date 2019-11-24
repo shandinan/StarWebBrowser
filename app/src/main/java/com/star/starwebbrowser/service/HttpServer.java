@@ -13,7 +13,7 @@ public class HttpServer extends NanoHTTPD {
     private static final String TAG = "HttpServer";
 
     public static final String DEFAULT_SHOW_PAGE = "index.html";
-    public static final int DEFAULT_PORT = 9511;//此参数随便定义，最好定义1024-65535；1-1024是系统常用端口,1024-65535是非系统端口
+    public static final int DEFAULT_PORT = 9999;//此参数随便定义，最好定义1024-65535；1-1024是系统常用端口,1024-65535是非系统端口
 
     public enum Status implements Response.IStatus {
         REQUEST_ERROR(500, "请求失败"),

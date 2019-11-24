@@ -17,6 +17,8 @@ import com.star.library.jsbridge.DefaultHandler;
 import com.google.gson.Gson;
 import com.star.starwebbrowser.R;
 import com.star.starwebbrowser.save.SPUtils;
+import com.star.starwebbrowser.service.HttpServer;
+import fi.iki.elonen.util.ServerRunner;
 
 public class MainActivity extends SuperActivity implements View.OnClickListener {
     private final String TAG = "MainActivity";
@@ -64,6 +66,9 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
         });
 
         webView.send("start");
+
+        //启动http服务监听请求
+        ServerRunner.run(HttpServer.class);
     }
 
 
