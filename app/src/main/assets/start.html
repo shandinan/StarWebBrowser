@@ -29,55 +29,55 @@
 </head>
 
 <body ng-app="myapp" ng-controller="myctrl">
-    <div class="header">
-        <div style="float:left;width:100px;">
-            <img id="homeimg" src="./staticfile/images/xqw/logo.png" alt="logo" class="logos">
-        </div>
-        <div style="float:left;width:805px; position: absolute;left:276px;top:50px;">
-            <strong class="head_font">{{titl_msg}}</strong>
-        </div>
+<div class="header">
+    <div style="float:left;width:100px;">
+        <img id="homeimg" src="./staticfile/images/xqw/logo.png" alt="logo" class="logos">
+    </div>
+    <div style="float:left;width:805px; position: absolute;left:276px;top:50px;">
+        <strong class="head_font">{{titl_msg}}</strong>
+    </div>
 
-        <div class="" style="height:100px;margin-bottom:0px;">
-            <div class="pull-right" style="margin-right:5%;position:absolute;top:36px;right:0;">
-                <strong class="RealTime2" ng-bind="Realtime_ymd"></strong>
-                <br />
-                <span class="RealTime1" ng-bind="Realtime_hms"></span>
-            </div>
+    <div class="" style="height:100px;margin-bottom:0px;">
+        <div class="pull-right" style="margin-right:5%;position:absolute;top:36px;right:0;">
+            <strong class="RealTime2" ng-bind="Realtime_ymd"></strong>
+            <br />
+            <span class="RealTime1" ng-bind="Realtime_hms"></span>
+        </div>
+    </div>
+</div>
+
+<div class="boder">
+
+    <div class="boder-left">
+        <img class="header-photo" src="staticfile/images/photo.png" />
+        <div class="header-gh">
+            &nbsp;<strong style="font-size:74px;">工号</strong>
+            <strong>{{jobNumber}}</strong>
         </div>
     </div>
 
-    <div class="boder">
-
-        <div class="boder-left">
-            <img class="header-photo" src="staticfile/images/photo.png" />
-            <div class="header-gh">
-                &nbsp;<strong style="font-size:74px;">工号</strong>
-                <strong>{{jobNumber}}</strong>
+    <div class="boder-right">
+        <div class="right-window">
+            <div class="window-no"><strong>1</strong></div>
+            <div class="window-name">
+                <strong class="window_name-info">号窗口</strong>
             </div>
         </div>
-
-        <div class="boder-right">
-            <div class="right-window">
-                <div class="window-no"><strong>1</strong></div>
-                <div class="window-name">
-                    <strong class="window_name-info">号窗口</strong>
-                </div>
-            </div>
-            <div class="right-queue">
-                <strong class="queue-qh">请&nbsp;</strong>
-                <strong class="queue-num">{{queue_no}}</strong>
-                <strong class="queue-qh">&nbsp;号</strong>
-            </div>
-            <div>
-
-            </div>
+        <div class="right-queue">
+            <strong class="queue-qh">请&nbsp;</strong>
+            <strong class="queue-num">{{queue_no}}</strong>
+            <strong class="queue-qh">&nbsp;号</strong>
         </div>
+        <div>
 
+        </div>
     </div>
 
+</div>
 
 
-    <script type="text/javascript">
+
+<script type="text/javascript">
         var app = angular.module('myapp', []);
         app.controller('myctrl', function ($scope, $http, $interval) {
             $scope.titl_msg = "标准 高效 规范 便民";
@@ -90,12 +90,61 @@
             $scope.queue_no = "1888"; //排队号
             //计时器
             $scope.time = $interval(function () {
-               // $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
-                 $scope.time = new Date();
+                // $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
+                $scope.time = new Date();
                 $scope.Realtime_ymd = datetimeFormat_ymd($scope.time); //年月日
                 $scope.Realtime_hms = datetimeFormat_hms($scope.time);//星期  时分秒
             }, 1000);
 
+        });
+        //修改标题头
+        var modify_title = function (title) {
+            //通过controller来获取Angular应用
+            var appElement = document.querySelector('[ng-controller=myctrl]');
+            //获取$scope变量
+            var $scope = angular.element(appElement).scope();
+            // alert($scope.titl_msg);
+            $scope.titl_msg = title;
+        }
+
+        function connectWebViewJavascriptBridge(callback) {
+            if (window.WebViewJavascriptBridge) {
+                callback(WebViewJavascriptBridge)
+            } else {
+                document.addEventListener(
+                    'WebViewJavascriptBridgeReady'
+                    , function () {
+                        callback(WebViewJavascriptBridge)
+                    },
+                    false
+                );
+            }
+        }
+
+        connectWebViewJavascriptBridge(function (bridge) {
+            bridge.init(function (message, responseCallback) {
+                console.log('JS得到信息', message);
+                var data = { "response": "sdnsdn" };
+
+                if (responseCallback) {
+                    console.log('JS 请求', data);
+                    responseCallback(data);
+                }
+            });
+
+            bridge.registerHandler("functionInJs", function (data, responseCallback) {
+                document.getElementById("show").innerHTML = ("data1 from Java: = " + data);
+                if (responseCallback) {
+                    var responseData = "Javascript Says Right back aka!";
+                    responseCallback(responseData);
+                }
+            });
+            bridge.registerHandler("modify_title", function (data, responseCallback) {
+                alert(data);
+                var data2 = document.getElementById("text1").value;
+                var responseData = "我是Android调用js方法返回的数据---" + data2;
+                responseCallback(responseData);
+            });
         });
     </script>
 

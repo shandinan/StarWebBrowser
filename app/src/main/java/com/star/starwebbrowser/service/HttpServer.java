@@ -1,6 +1,7 @@
 package com.star.starwebbrowser.service;
 
-import fi.iki.elonen.NanoHTTPD;
+import android.widget.Toast;
+import com.star.library.jsbridge.BridgeWebView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,13 +10,21 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.star.library.jsbridge.CallBackFunction;
+import com.star.starwebbrowser.activity.MainActivity;
+import fi.iki.elonen.NanoHTTPD;
+
+
+
 public class HttpServer extends NanoHTTPD {
     private static final String TAG = "HttpServer";
 
     public static final String DEFAULT_SHOW_PAGE = "index.html";
-    public static final int DEFAULT_PORT = 9999;//此参数随便定义，最好定义1024-65535；1-1024是系统常用端口,1024-65535是非系统端口
+    public static final int DEFAULT_PORT = 8888;//此参数随便定义，最好定义1024-65535；1-1024是系统常用端口,1024-65535是非系统端口
+    BridgeWebView webView;//全局webView
+    //NanoFileUpload uploader;
 
-    public enum Status implements Response.IStatus {
+    public enum Status implements NanoHTTPD.Response.IStatus {
         REQUEST_ERROR(500, "请求失败"),
         REQUEST_ERROR_API(501, "无效的请求接口"),
         REQUEST_ERROR_CMD(502, "无效命令");
@@ -26,20 +35,19 @@ public class HttpServer extends NanoHTTPD {
             this.requestStatus = requestStatus;
             this.description = description;
         }
-
         @Override
         public String getDescription() {
             return description;
         }
-
         @Override
         public int getRequestStatus() {
             return requestStatus;
         }
     }
 
-    public HttpServer() {//初始化端口
+    public HttpServer(BridgeWebView _webView) {//初始化端口
         super(DEFAULT_PORT);
+        webView =_webView;
     }
 
     @Override
@@ -55,9 +63,11 @@ public class HttpServer extends NanoHTTPD {
             e.printStackTrace();
         }
         Map<String, String> parms = session.getParms();
-        try {
-            //   LogUtil.d(TAG, uri);
 
+        try {
+
+
+            //   LogUtil.d(TAG, uri);
 //判断uri的合法性，自定义方法，这个是判断是否是接口的方法
             //  if (checkUri(uri)) {
             if (true) {
@@ -133,6 +143,7 @@ public class HttpServer extends NanoHTTPD {
         response.addHeader("Access-Control-Allow-Credentials", "true");
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Max-Age", "" + 42 * 60 * 60);
+        response.setData(null);;
         return response;
     }
 }

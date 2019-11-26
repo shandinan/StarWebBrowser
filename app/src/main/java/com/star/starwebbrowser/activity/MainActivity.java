@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.widget.Button;
+import android.widget.Toast;
 import com.star.library.jsbridge.BridgeHandler;
 import com.star.library.jsbridge.BridgeWebView;
 import com.star.library.jsbridge.CallBackFunction;
@@ -20,10 +21,12 @@ import com.star.starwebbrowser.save.SPUtils;
 import com.star.starwebbrowser.service.HttpServer;
 import fi.iki.elonen.util.ServerRunner;
 
+import java.io.IOException;
+
 public class MainActivity extends SuperActivity implements View.OnClickListener {
     private final String TAG = "MainActivity";
     BridgeWebView webView;
-
+    HttpServer httpServer;//http服务
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,7 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
         });
         // webView.loadUrl("file:///android_asset/start.html");
         webView.loadUrl("file:///android_asset/start.html");
+       // webView.loadUrl("file:///android_asset/demo.html");
         // webView.loadUrl("http://122.193.27.194:2000/PDAInspection/AppH5/start.html");
         //webView.loadUrl("http://192.168.1.58:8017/start.html");
         /* * ** 注册供 JS调用的 ScanQR 打开二维码扫描界面** **/
@@ -52,6 +56,15 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
             @Override
             public void handler(String data, CallBackFunction function) {
                 function.onCallBack("Response_sdn"); //响应JS请求
+            }
+        });
+
+       // webView.loadUrl("javascript:modify_title");
+        // 调用js方法
+        webView.callHandler("modify_title", "ss ss ss ss", new CallBackFunction() {
+            @Override
+            public void onCallBack(String data) {
+                Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -64,11 +77,15 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
                 function.onCallBack(MainActivity.this.app.VERSION);//拿到对应的app VERSION版本号
             }
         });
-
         webView.send("start");
-
         //启动http服务监听请求
-        ServerRunner.run(HttpServer.class);
+        httpServer = new HttpServer(webView);
+       // httpServer = new HttpServer();
+        try {
+            httpServer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
