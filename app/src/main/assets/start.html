@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title>主页</title>
-
     <script src="staticfile/js/jquery-3.1.1.min.js"></script>
     <script src="staticfile/js/bootstrap.js"></script>
     <script src="staticfile/js/sdxk-date.js"></script>
@@ -11,7 +10,6 @@
     <link href="staticfile/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="staticfile/css/common.css">
     <link rel="stylesheet" href="staticfile/css/HomePage.css">
-
     <style>
         .head_font {
             font-size: 90px;
@@ -22,12 +20,7 @@
             opacity: 0.9;
         }
     </style>
-
-    <script type="text/javascript">
-
-    </script>
 </head>
-
 <body ng-app="myapp" ng-controller="myctrl">
 <div class="header">
     <div style="float:left;width:100px;">
@@ -36,7 +29,6 @@
     <div style="float:left;width:805px; position: absolute;left:276px;top:50px;">
         <strong class="head_font">{{titl_msg}}</strong>
     </div>
-
     <div class="" style="height:100px;margin-bottom:0px;">
         <div class="pull-right" style="margin-right:5%;position:absolute;top:36px;right:0;">
             <strong class="RealTime2" ng-bind="Realtime_ymd"></strong>
@@ -45,11 +37,10 @@
         </div>
     </div>
 </div>
-
 <div class="boder">
 
     <div class="boder-left">
-        <img class="header-photo" src="staticfile/images/photo.png" />
+        <img class="header-photo" src="{{photo}}" />
         <div class="header-gh">
             &nbsp;<strong style="font-size:74px;">工号</strong>
             <strong>{{jobNumber}}</strong>
@@ -58,7 +49,7 @@
 
     <div class="boder-right">
         <div class="right-window">
-            <div class="window-no"><strong>1</strong></div>
+            <div class="window-no"><strong>{{win_num}}</strong></div>
             <div class="window-name">
                 <strong class="window_name-info">号窗口</strong>
             </div>
@@ -75,11 +66,9 @@
 
 </div>
 
-
-
 <script type="text/javascript">
         var app = angular.module('myapp', []);
-        app.controller('myctrl', function ($scope, $http, $interval) {
+        app.controller('myctrl', function ($scope, $interval, $timeout) {
             $scope.titl_msg = "标准 高效 规范 便民";
             $scope.time = new Date();
             $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
@@ -88,15 +77,32 @@
             $scope.Realtime_hms = datetimeFormat_hms($scope.time);//星期  时分秒
             $scope.jobNumber = "123456";//工号
             $scope.queue_no = "1888"; //排队号
+            $scope.win_num = "1";//窗口号
+            $scope.photo = "staticfile/images/photo.png";//头像照片
             //计时器
-            $scope.time = $interval(function () {
+            $interval(function () {
                 // $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
                 $scope.time = new Date();
                 $scope.Realtime_ymd = datetimeFormat_ymd($scope.time); //年月日
                 $scope.Realtime_hms = datetimeFormat_hms($scope.time);//星期  时分秒
             }, 1000);
+            $timeout(function () {
+                window.WebViewJavascriptBridge.callHandler(
+                    'InitShowMsg', { 'param': '2222' },
+                    function (responseData) {
+                        var res_json = JSON.parse(responseData);
+                        $scope.titl_msg = res_json["title"];
+                        $scope.jobNumber =res_json["gh"];//工号
+                        $scope.queue_no = "1888"; //排队号
+                        $scope.win_num =res_json["winnum"];//窗口号
+                        $scope.photo = res_json["photo"];//头像照片
+                    }
+                );
+            },1500);
+
 
         });
+
         //修改标题头
         var modify_title = function (title) {
             //通过controller来获取Angular应用
@@ -106,6 +112,39 @@
             // alert($scope.titl_msg);
             $scope.titl_msg = title;
         }
+        //修改照片
+        var modify_photo = function (url) {
+            //通过controller来获取Angular应用
+            var appElement = document.querySelector('[ng-controller=myctrl]');
+            //获取$scope变量
+            var $scope = angular.element(appElement).scope();
+            $scope.photo = url;
+        }
+        //修改工号
+        var modify_gh = function (num) {
+            //通过controller来获取Angular应用
+            var appElement = document.querySelector('[ng-controller=myctrl]');
+            //获取$scope变量
+            var $scope = angular.element(appElement).scope();
+            $scope.jobNumber = num;
+        }
+        //修改窗口号
+        var modify_winNum = function (num) {
+            //通过controller来获取Angular应用
+            var appElement = document.querySelector('[ng-controller=myctrl]');
+            //获取$scope变量
+            var $scope = angular.element(appElement).scope();
+            $scope.win_num = num;
+        }
+        //修改排队号
+        var modify_queue = function (queue) {
+            //通过controller来获取Angular应用
+            var appElement = document.querySelector('[ng-controller=myctrl]');
+            //获取$scope变量
+            var $scope = angular.element(appElement).scope();
+            $scope.queue_no = queue;
+        }
+
 
         function connectWebViewJavascriptBridge(callback) {
             if (window.WebViewJavascriptBridge) {
@@ -120,7 +159,6 @@
                 );
             }
         }
-
         connectWebViewJavascriptBridge(function (bridge) {
             bridge.init(function (message, responseCallback) {
                 console.log('JS得到信息', message);
@@ -131,18 +169,29 @@
                     responseCallback(data);
                 }
             });
-
-            bridge.registerHandler("functionInJs", function (data, responseCallback) {
-                document.getElementById("show").innerHTML = ("data1 from Java: = " + data);
-                if (responseCallback) {
-                    var responseData = "Javascript Says Right back aka!";
-                    responseCallback(responseData);
-                }
-            });
             bridge.registerHandler("modify_title", function (data, responseCallback) {
-                alert(data);
-                var data2 = document.getElementById("text1").value;
-                var responseData = "我是Android调用js方法返回的数据---" + data2;
+                modify_title(data);
+                var responseData = "修改显示标头";
+                responseCallback(responseData);
+            });
+            bridge.registerHandler("modify_photo", function (data, responseCallback) {
+                modify_photo(data);
+                var responseData = "修改照片";
+                responseCallback(responseData);
+            });
+            bridge.registerHandler("modify_gh", function (data, responseCallback) {
+                modify_photo(data);
+                var responseData = "修改工号";
+                responseCallback(responseData);
+            });
+            bridge.registerHandler("modify_winnum", function (data, responseCallback) {
+                modify_winNum(data);
+                var responseData = "修改窗口号";
+                responseCallback(responseData);
+            });
+            bridge.registerHandler("modify_queue", function (data, responseCallback) {
+                modify_queue(data);
+                var responseData = "修改排队号";
                 responseCallback(responseData);
             });
         });

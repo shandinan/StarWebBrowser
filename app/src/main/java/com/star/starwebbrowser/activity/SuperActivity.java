@@ -23,7 +23,7 @@ public class SuperActivity extends Activity implements View.OnClickListener {
     public ProgressDialog pd;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         res = this.getResources();
         app = (FTApplication)getApplication();

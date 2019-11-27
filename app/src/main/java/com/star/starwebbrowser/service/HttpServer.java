@@ -12,8 +12,8 @@ import java.util.Map;
 
 import com.star.library.jsbridge.CallBackFunction;
 import com.star.starwebbrowser.activity.MainActivity;
+import com.star.starwebbrowser.event.MainHandler;
 import fi.iki.elonen.NanoHTTPD;
-
 
 
 public class HttpServer extends NanoHTTPD {
@@ -35,10 +35,12 @@ public class HttpServer extends NanoHTTPD {
             this.requestStatus = requestStatus;
             this.description = description;
         }
+
         @Override
         public String getDescription() {
             return description;
         }
+
         @Override
         public int getRequestStatus() {
             return requestStatus;
@@ -47,7 +49,7 @@ public class HttpServer extends NanoHTTPD {
 
     public HttpServer(BridgeWebView _webView) {//初始化端口
         super(DEFAULT_PORT);
-        webView =_webView;
+        webView = _webView;
     }
 
     @Override
@@ -65,73 +67,39 @@ public class HttpServer extends NanoHTTPD {
         Map<String, String> parms = session.getParms();
 
         try {
-
-
-            //   LogUtil.d(TAG, uri);
-//判断uri的合法性，自定义方法，这个是判断是否是接口的方法
-            //  if (checkUri(uri)) {
-            if (true) {
-                // 针对的是接口的处理
-                if (headers != null) {
-                    //   LogUtil.d(TAG, headers.toString());
+            switch (uri) {
+                case "/test":
+                    break;
+                case "/title":
+                    MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_TITLE, parms.get("title"));
+                    break;
+                case "/photo":
+                    MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_PHOTO,parms.get("photo"));
+                    break;
+                case "/gh":
+                    MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_GH,parms.get("gh"));
+                    break;
+                case "/winnum":
+                    MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_WIN_NUM,parms.get("winnum"));
+                    break;
+                case "/queue":
+                    MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_QUEUE,parms.get("queue"));
+                    break;
+                default: {
+                    return addHeaderResponse(Status.REQUEST_ERROR_API);
                 }
-                if (parms != null) {
-                    //    LogUtil.d(TAG, parms.toString());
-                }
-                if (Method.OPTIONS.equals(session.getMethod())) {
-                    //   LogUtil.d(TAG, "OPTIONS探测性请求");
-                    //Response.newFixedLengthResponse
-                    return addHeaderResponse(Response.Status.OK);
-                }
-
-                switch (uri) {
-                    case "/test": {//接口2
-                        //此方法包括了封装返回的接口请求数据和处理异常以及跨域
-                        //  return getXXX(parms);
-                    }
-                    default: {
-                        return addHeaderResponse(Status.REQUEST_ERROR_API);
-                    }
-                }
-            } else {
-                //针对的是静态资源的处理
-                /*
-                String filePath = getFilePath(uri); // 根据url获取文件路径
-                if (filePath == null) {
-                    LogUtil.d(TAG, "sd卡没有找到");
-                    return super.serve(session);
-                }
-                File file = new File(filePath);
-                if (file != null && file.exists()) {
-                    //   LogUtil.d(TAG, "file path = " + file.getAbsolutePath());
-//根据文件名返回mimeType： image/jpg, video/mp4, etc
-                    String mimeType = getMimeType(filePath);
-                    Response response = null;
-                    InputStream is = new FileInputStream(file);
-                    response = newFixedLengthResponse(Response.Status.OK, mimeType, is, is.available());
-//下面是跨域的参数（因为一般要和h5联调，所以最好设置一下）
-// X-PINGOTHER, Content-Type
-                    response.addHeader("Access-Control-Allow-Headers", allowHeaders);
-                    response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, HEAD");
-                    response.addHeader("Access-Control-Allow-Credentials", "true");
-                    response.addHeader("Access-Control-Allow-Origin", "*");
-                    response.addHeader("Access-Control-Max-Age", "" + 42 * 60 * 60);
-                    return response;
-                } else {
-                    // LogUtil.d(TAG, "file path = " + file.getAbsolutePath() + "的资源不存在");
-                }
-                */
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return newFixedLengthResponse("ok");
         //自己封装的返回请求
-        return addHeaderResponse(Status.REQUEST_ERROR);
+        //return addHeaderResponse(Status.REQUEST_ERROR);
     }
 
     /**
      * 自定义Response返回内容
+     *
      * @param status
      * @return
      */
@@ -143,7 +111,7 @@ public class HttpServer extends NanoHTTPD {
         response.addHeader("Access-Control-Allow-Credentials", "true");
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Max-Age", "" + 42 * 60 * 60);
-        response.setData(null);;
         return response;
     }
+
 }
