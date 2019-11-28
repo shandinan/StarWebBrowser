@@ -12,61 +12,61 @@
     <link rel="stylesheet" href="staticfile/css/HomePage.css">
     <style>
         .head_font {
-            font-size: 90px;
+            font-size: 70px;
             font-family: 微软雅黑;
             font-weight: 500;
             color: white;
-            line-height: 90px;
+            line-height: 30px;
             opacity: 0.9;
         }
     </style>
 </head>
-<body ng-app="myapp" ng-controller="myctrl">
-<div class="header">
-    <div style="float:left;width:100px;">
-        <img id="homeimg" src="./staticfile/images/xqw/logo.png" alt="logo" class="logos">
-    </div>
-    <div style="float:left;width:805px; position: absolute;left:276px;top:50px;">
-        <strong class="head_font">{{titl_msg}}</strong>
-    </div>
-    <div class="" style="height:100px;margin-bottom:0px;">
-        <div class="pull-right" style="margin-right:5%;position:absolute;top:36px;right:0;">
-            <strong class="RealTime2" ng-bind="Realtime_ymd"></strong>
-            <br />
-            <span class="RealTime1" ng-bind="Realtime_hms"></span>
+<body ng-app="myapp" ng-controller="myctrl" style="zoom:66.67%">
+    <div class="header">
+        <div style="float:left;width:100px;">
+            <img id="homeimg" src="./staticfile/images/xqw/logo.png" alt="logo" class="logos">
         </div>
-    </div>
-</div>
-<div class="boder">
-
-    <div class="boder-left">
-        <img class="header-photo" src="{{photo}}" />
-        <div class="header-gh">
-            &nbsp;<strong style="font-size:74px;">工号</strong>
-            <strong>{{jobNumber}}</strong>
+        <div style="float:left;width:705px; position: absolute;left:150px;top:60px;">
+            <strong class="head_font">{{titl_msg}}</strong>
         </div>
-    </div>
-
-    <div class="boder-right">
-        <div class="right-window">
-            <div class="window-no"><strong>{{win_num}}</strong></div>
-            <div class="window-name">
-                <strong class="window_name-info">号窗口</strong>
+        <div class="" style="height:100px;margin-bottom:0px;">
+            <div class="pull-right" style="margin-right:3%;position:absolute;top:30px;right:0;">
+                <strong class="RealTime2" ng-bind="Realtime_ymd"></strong>
+                <br />
+                <span class="RealTime1" ng-bind="Realtime_hms"></span>
             </div>
         </div>
-        <div class="right-queue">
-            <strong class="queue-qh">请&nbsp;</strong>
-            <strong class="queue-num">{{queue_no}}</strong>
-            <strong class="queue-qh">&nbsp;号</strong>
-        </div>
-        <div>
+    </div>
+    <div class="boder">
 
+        <div class="boder-left">
+            <img class="header-photo" src="{{photo}}" />
+            <div class="header-gh">
+                &nbsp;<strong style="font-size:50px;">工号</strong>
+                <strong>{{jobNumber}}</strong>
+            </div>
         </div>
+
+        <div class="boder-right">
+            <div class="right-window">
+                <div class="window-no"><strong>{{win_num}}</strong></div>
+                <div class="window-name">
+                    <strong class="window_name-info">号窗口</strong>
+                </div>
+            </div>
+            <div class="right-queue">
+                <strong class="queue-qh">请&nbsp;</strong>
+                <strong class="queue-num">{{queue_no}}</strong>
+                <strong class="queue-qh">&nbsp;号</strong>
+            </div>
+            <div>
+
+            </div>
+        </div>
+
     </div>
 
-</div>
-
-<script type="text/javascript">
+    <script type="text/javascript">
         var app = angular.module('myapp', []);
         app.controller('myctrl', function ($scope, $interval, $timeout) {
             $scope.titl_msg = "标准 高效 规范 便民";
@@ -92,13 +92,13 @@
                     function (responseData) {
                         var res_json = JSON.parse(responseData);
                         $scope.titl_msg = res_json["title"];
-                        $scope.jobNumber =res_json["gh"];//工号
+                        $scope.jobNumber = res_json["gh"];//工号
                         $scope.queue_no = "1888"; //排队号
-                        $scope.win_num =res_json["winnum"];//窗口号
+                        $scope.win_num = res_json["winnum"];//窗口号
                         $scope.photo = res_json["photo"];//头像照片
                     }
                 );
-            },1500);
+            }, 1500);
 
 
         });
@@ -180,7 +180,7 @@
                 responseCallback(responseData);
             });
             bridge.registerHandler("modify_gh", function (data, responseCallback) {
-                modify_photo(data);
+                modify_gh(data);
                 var responseData = "修改工号";
                 responseCallback(responseData);
             });

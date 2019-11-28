@@ -1,152 +1,150 @@
 <html>
-    <head>
-        <meta content="text/html; charset=utf-8" http-equiv="content-type">
-        <title>
-            js调用java
-        </title>
-    </head>
-    
-    <body>
-        <p>
-            <xmp id="show">
-            </xmp>
-        </p>
-        <p>
-            <xmp id="init">
-            </xmp>
-        </p>
-        <p>
-            <input type="text" id="text1" value="用户名(username)" />
-        </p>
-        <p>
-            <input type="text" id="text2" value="password" />
-        </p>
-        <p>
-            <input type="button" id="enter" value="发消息给Native" onclick="testClick();"
-            />
-        </p>
-        <p>
-            <input type="button" id="enter1" value="调用Native方法" onclick="testClick1();"
-            />
-        </p>
-        <p>
-            <input type="button" id="enter2" value="显示html" onclick="testDiv();" />
-        </p>
-        <p>
-            <input type="button" id="btnScanQR" value="扫描条形码" onclick="ScanQR()" />
-        </p>
-		<p>
-		<input type="button" id="btnScanQR" value="打开摄像头" onclick="OpenCamear()" />
-        <p>
-            <input type="file" value="打开文件" />
-        </p>
-    </body>
-    <script>
-        function testDiv() {
-            document.getElementById("show").innerHTML = document.getElementsByTagName("html")[0].innerHTML;
-        }
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <title>
+        js调用java
+    </title>
+</head>
 
-        function testClick() {
-            var str1 = document.getElementById("text1").value;
-            var str2 = document.getElementById("text2").value;
+<body>
+    <p>
+        <xmp id="show">
+        </xmp>
+    </p>
+    <p>
+        <xmp id="init">
+        </xmp>
+    </p>
+    <p>
+        <input type="text" id="text1" value="用户名(username)" />
+    </p>
+    <p>
+        <input type="text" id="text2" value="password" />
+    </p>
+    <p>
+        <input type="button" id="enter" value="发消息给Native" onclick="testClick();" />
+    </p>
+    <p>
+        <input type="button" id="enter1" value="调用Native方法" onclick="testClick1();" />
+    </p>
+    <p>
+        <input type="button" id="enter2" value="显示html" onclick="testDiv();" />
+    </p>
+    <p>
+        <input type="button" id="btnScanQR" value="扫描条形码" onclick="ScanQR()" />
+    </p>
+    <p>
+        <input type="button" id="btnScanQR" value="打开摄像头" onclick="OpenCamear()" />
+    <p>
+        <input type="file" value="打开文件" />
+    </p>
+</body>
+<script>
+    function testDiv() {
+        document.getElementById("show").innerHTML = document.getElementsByTagName("html")[0].innerHTML;
+    }
 
-            //send message to native
-            var data = {id: 1, content: "这是一个图片 <img src=\"a.png\"/> test\r\nhahaha"};
-            window.WebViewJavascriptBridge.send(
-                data
-                , function(responseData) {
-                    document.getElementById("show").innerHTML = "repsonseData from java, data = " + responseData
-                }
-            );
+    function testClick() {
+        var str1 = document.getElementById("text1").value;
+        var str2 = document.getElementById("text2").value;
 
-        }
-
-        function testClick1() {
-            var str1 = document.getElementById("text1").value;
-            var str2 = document.getElementById("text2").value;
-
-            //call native method
-            window.WebViewJavascriptBridge.callHandler(
-                'submitFromWeb'
-                , {'param': '中文测试'}
-                , function(responseData) {
-                    document.getElementById("show").innerHTML = "send get responseData from java, data = " + responseData
-                }
-            );
-        }
-
-        function ScanQR(){
-        window.WebViewJavascriptBridge.callHandler(
-        'ScanQR',{'param':'2222'},
-        function(responseData){
-         document.getElementById("show").innerHTML="send "+responseData;
-        }
-        );
-        }
-
-function OpenCamear(){
- window.WebViewJavascriptBridge.callHandler(
-        'ShotCamera',{'code':'01','codename':'xxxxxx','clsbdh':'2332233232'},
-        function(responseData){
-         document.getElementById("show").innerHTML="send "+responseData;
-        }
-        );
-}
-
-        function bridgeLog(logContent) {
-            document.getElementById("show").innerHTML = logContent;
-        }
-
-        function connectWebViewJavascriptBridge(callback) {
-            if (window.WebViewJavascriptBridge) {
-                callback(WebViewJavascriptBridge)
-            } else {
-                document.addEventListener(
-                    'WebViewJavascriptBridgeReady'
-                    , function() {
-                        callback(WebViewJavascriptBridge)
-                    },
-                    false
-                );
+        //send message to native
+        var data = { id: 1, content: "这是一个图片 <img src=\"a.png\"/> test\r\nhahaha" };
+        window.WebViewJavascriptBridge.send(
+            data
+            , function (responseData) {
+                document.getElementById("show").innerHTML = "repsonseData from java, data = " + responseData
             }
+        );
+
+    }
+
+    function testClick1() {
+        var str1 = document.getElementById("text1").value;
+        var str2 = document.getElementById("text2").value;
+
+        //call native method
+        window.WebViewJavascriptBridge.callHandler(
+            'submitFromWeb'
+            , { 'param': '中文测试' }
+            , function (responseData) {
+                document.getElementById("show").innerHTML = "send get responseData from java, data = " + responseData
+            }
+        );
+    }
+
+    function ScanQR() {
+        window.WebViewJavascriptBridge.callHandler(
+            'ScanQR', { 'param': '2222' },
+            function (responseData) {
+                document.getElementById("show").innerHTML = "send " + responseData;
+            }
+        );
+    }
+
+    function OpenCamear() {
+        window.WebViewJavascriptBridge.callHandler(
+            'ShotCamera', { 'code': '01', 'codename': 'xxxxxx', 'clsbdh': '2332233232' },
+            function (responseData) {
+                document.getElementById("show").innerHTML = "send " + responseData;
+            }
+        );
+    }
+
+    function bridgeLog(logContent) {
+        document.getElementById("show").innerHTML = logContent;
+    }
+
+    function connectWebViewJavascriptBridge(callback) {
+        if (window.WebViewJavascriptBridge) {
+            callback(WebViewJavascriptBridge)
+        } else {
+            document.addEventListener(
+                'WebViewJavascriptBridgeReady'
+                , function () {
+                    callback(WebViewJavascriptBridge)
+                },
+                false
+            );
         }
+    }
 
-        connectWebViewJavascriptBridge(function(bridge) {
-            bridge.init(function(message, responseCallback) {
-                console.log('JS得到信息', message);
-                var data = {"response":"sdnsdn"};
+    connectWebViewJavascriptBridge(function (bridge) {
+        bridge.init(function (message, responseCallback) {
+            console.log('JS得到信息', message);
+            var data = { "response": "sdnsdn" };
 
-                if (responseCallback) {
-                    console.log('JS 请求', data);
-                    responseCallback(data);
-                }
-            });
+            if (responseCallback) {
+                console.log('JS 请求', data);
+                responseCallback(data);
+            }
+        });
 
-            bridge.registerHandler("functionInJs", function(data, responseCallback) {
-                document.getElementById("show").innerHTML = ("data1 from Java: = " + data);
-                if (responseCallback) {
-                    var responseData = "Javascript Says Right back aka!";
-                    responseCallback(responseData);
-                }
-            });
-			
-			bridge.registerHandler("showQRvalue",function(data,responseCallback){
-			document.getElementById("show").innerHTML=data;
-			if(responseCallback){
-			var responseData = "得到对应的结果";
-			responseCallback(responseData);
-			}
-			});
-			
-			bridge.registerHandler("showStrImg",function(data,responseCallback){
-			document.getElementById("show").innerHTML=data;
-			if(responseCallback){
-			var responseData = "得到对应的结果";
-			responseCallback(responseData);
-			}
-			});
-        })
-    </script>
+        bridge.registerHandler("functionInJs", function (data, responseCallback) {
+            document.getElementById("show").innerHTML = ("data1 from Java: = " + data);
+            if (responseCallback) {
+                var responseData = "Javascript Says Right back aka!";
+                responseCallback(responseData);
+            }
+        });
+
+        bridge.registerHandler("showQRvalue", function (data, responseCallback) {
+            document.getElementById("show").innerHTML = data;
+            if (responseCallback) {
+                var responseData = "得到对应的结果";
+                responseCallback(responseData);
+            }
+        });
+
+        bridge.registerHandler("showStrImg", function (data, responseCallback) {
+            document.getElementById("show").innerHTML = data;
+            if (responseCallback) {
+                var responseData = "得到对应的结果";
+                responseCallback(responseData);
+            }
+        });
+    })
+</script>
 
 </html>
 

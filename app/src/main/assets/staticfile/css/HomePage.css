@@ -109,11 +109,11 @@ html, body {
 }
 .logos {
     position: absolute;
-    left: 93px;
-    top: 25px;
-    width: 132px;
-    height: 136px;
-    margin: 15px;
+    left: 42px;
+    top: 15px;
+    width: 88px;
+    height: 92px;
+    margin: 10px;
 }
 .boder{
     position:relative;
@@ -122,32 +122,32 @@ html, body {
 }
 .boder-left {
     position: relative;
-    left: 230px;
-    top: 160px;
-    width: 480px;
-    height: 750px;
+    left: 13%;
+    top: 112px;
+    width: 320px;
+    height: 450px;
     float: left;
 }
 .header-photo {
-    width: 480px;
-    height: 600px;
+    width: 320px;
+    height: 400px;
 }
 .header-gh {
-    width: 480px;
+    width: 320px;
     color: white;
-    font-size: 76px;
+    font-size: 46px;
     font-family: 微软雅黑;
     align-content: center;
-    margin-top: 26px;
+    margin-top: 16px;
     font-weight: 500;
     opacity: 0.8;
 }
 .boder-right {
     position: relative;
-    right: 6%;
-    top: 100px;
-    width: 920px;
-    height: 750px;
+    right: 10%;
+    top: 102px;
+    width: 610px;
+    height: 450px;
     float: right;
     text-align: center
 }
@@ -159,48 +159,49 @@ html, body {
     padding:0 0;
 }
 .window-no {
-    height: 234px;
-    font-size: 317px;
+    height: 156px;
+    font-size: 210px;
     font-family: 微软雅黑;
     font-weight: lighter;
     color: rgba(255,255,255,1);
     opacity: 0.9;
     float: left;
-    margin-left: 100px;
+    margin-left: 60px;
 }
 .window-name {
-    width:470px;
-    height: 236px;
-    float:left;
-    margin-top:100px;
-    margin-left:10px;
-    background-image:url("../images/rec.png");
+    width: 314px;
+    height: 158px;
+    float: left;
+    margin-top: 60px;
+    margin-left: 8px;
+    background-image: url("../images/rec.png");
+    background-repeat: no-repeat;
 }
 .window_name-info {
     position: relative;
     left: 6px;
     top: 28px;
-    font-size: 120px;
+    font-size: 80px;
     font-family: 微软雅黑;
     font-weight: bold;
     color: rgba(255,255,255,1);
 }
 
 .right-queue{
-    width:920px;
-    height:120px;
+    width:610px;
+    height:105px;
     text-align:center;
-    margin-top:190px;
+    margin-top:40px;
 }
 .queue-qh {
-    font-size: 166px;
+    font-size: 110px;
     font-family: 微软雅黑;
     font-weight: bold;
     color: rgba(255,255,255,1);
     opacity: 0.9;
 }
 .queue-num {
-    font-size: 190px;
+    font-size: 126px;
     font-family: 微软雅黑;
     font-weight: bold;
     color: #FFD40E;

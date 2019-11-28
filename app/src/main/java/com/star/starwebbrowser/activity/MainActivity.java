@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.widget.Button;
 import android.widget.Toast;
 import com.star.library.jsbridge.BridgeHandler;
@@ -50,7 +51,22 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
         webView.setWebChromeClient(new WebChromeClient() {
 
         });
-        webView.loadUrl("file:///android_asset/start.html");
+        //支持javascript
+        webView.getSettings().setJavaScriptEnabled(true);
+        // 设置可以支持缩放
+        webView.getSettings().setSupportZoom(true);
+       // 设置出现缩放工具
+        webView.getSettings().setBuiltInZoomControls(true);
+         //扩大比例的缩放
+        webView.getSettings().setUseWideViewPort(true);
+        //自适应屏幕
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        //按比例缩放
+       // webView.setInitialScale(190);
+       // webView.loadUrl("file:///android_asset/start.html");
+        webView.loadUrl("http://50.79.98.190:9001/");
+
         /* * ** 注册供 JS调用的 ScanQR 打开二维码扫描界面** **/
         webView.registerHandler("InitShowMsg", new BridgeHandler() {
             @Override
