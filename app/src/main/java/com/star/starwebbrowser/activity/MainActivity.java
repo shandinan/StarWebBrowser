@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.*;
 import android.support.v7.app.AlertDialog;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.widget.Button;
 import android.widget.Toast;
+import com.google.gson.JsonObject;
 import com.star.library.jsbridge.BridgeHandler;
 import com.star.library.jsbridge.BridgeWebView;
 import com.star.library.jsbridge.CallBackFunction;
@@ -23,6 +25,7 @@ import com.star.starwebbrowser.event.MainHandler;
 import com.star.starwebbrowser.save.SPUtils;
 import com.star.starwebbrowser.service.HttpServer;
 import fi.iki.elonen.util.ServerRunner;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -65,7 +68,13 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
         //按比例缩放
        // webView.setInitialScale(190);
        // webView.loadUrl("file:///android_asset/start.html");
-        webView.loadUrl("http://50.79.98.190:9001/");
+        String strWebUrl = SPUtils.readString(MainActivity.this,"web_url");
+        if(strWebUrl ==null||"".equals(strWebUrl)){
+            webView.loadUrl("file:///android_asset/start.html");
+        }else {
+            webView.loadUrl(strWebUrl);
+        }
+
 
         /* * ** 注册供 JS调用的 ScanQR 打开二维码扫描界面** **/
         webView.registerHandler("InitShowMsg", new BridgeHandler() {
@@ -176,6 +185,30 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
                             //   Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
                         }
                     });
+                    break;
+                case MODIFY_URL://临时修改URL，下次启动更新
+                    webView.loadUrl(localMainMessage.Info);
+                    break;
+                case MODIFY_URL_SAVE: //永久修改webview的URL
+                    //保存url到本地
+                    SPUtils.saveString(MainActivity.this,"web_url",localMainMessage.Info);
+                    webView.loadUrl(localMainMessage.Info);
+                    break;
+                case SDN_CUSTOMIZE: //自定义定制，调用自定义的js函数
+                    try{
+                        /// url参数格式 {"method_name":"fun_name","param":{"p1":"value1","p2":"value2"}}
+                        JSONObject jobj = new JSONObject(localMainMessage.Info);
+                        String strMethod_Name = jobj.getString("method_name");//方法名
+                        JSONObject jobj_child = jobj.getJSONObject("param");//得到参数字josn
+                        // 调用js方法修改显示
+                        webView.callHandler(strMethod_Name, jobj_child.toString(), new CallBackFunction() {
+                            @Override
+                            public void onCallBack(String data) {
+                                //   Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }catch (Exception EX){
+                    }
                     break;
                 default:
                     break;
