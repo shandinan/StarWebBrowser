@@ -27,6 +27,7 @@ import com.star.starwebbrowser.service.HttpServer;
 import fi.iki.elonen.util.ServerRunner;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 public class MainActivity extends SuperActivity implements View.OnClickListener {
@@ -209,6 +210,22 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
                         });
                     }catch (Exception EX){
                     }
+                    break;
+                case SDN_ADD: //新增排队
+                    webView.callHandler("add_queue", localMainMessage.Info, new CallBackFunction() {
+                        @Override
+                        public void onCallBack(String data) {
+                            //   Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    break;
+                case SDN_UPDATE:
+                    webView.callHandler("update_queue", localMainMessage.Info, new CallBackFunction() {
+                        @Override
+                        public void onCallBack(String data) {
+                            //   Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
+                        }
+                    });
                     break;
                 default:
                     break;

@@ -55,36 +55,59 @@ public class HttpServer extends NanoHTTPD {
     @Override
     public Response serve(IHTTPSession session) {
         String uri = session.getUri();
-        Map<String, String> headers = session.getHeaders();
-        //接收不到post参数的问题，              http://blog.csdn.net/obguy/article/details/53841559
-        try {
-            session.parseBody(new HashMap<String, String>());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ResponseException e) {
-            e.printStackTrace();
-        }
-        Map<String, String> parms = session.getParms();
+        Map<String, String> files = new HashMap<String, String>();
 
+            Map<String, String> headers = session.getHeaders();
+            String post_param = "";
+      //  if (Method.POST.equals(session.getMethod())) {
+            //接收不到post参数的问题，              http://blog.csdn.net/obguy/article/details/53841559
+            try {
+                // session.parseBody(new HashMap<String, String>());
+                session.parseBody(files);
+               // String body = session.getQueryParameterString();
+                //post_param = body;
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ResponseException e) {
+                e.printStackTrace();
+            }
+       // }
+        Map<String, String> parms = session.getParms();
         try {
             switch (uri) {
-                case "/test":
+                case "/test": //测试
                     break;
-                case "/title":
+                case "/title": //标题
                     MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_TITLE, parms.get("title"));
                     break;
-                case "/photo":
+                case "/photo": //照片
                     MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_PHOTO,parms.get("photo"));
                     break;
-                case "/gh":
+                case "/gh": //工号
                     MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_GH,parms.get("gh"));
                     break;
-                case "/winnum":
+                case "/winnum": //窗口号
                     MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_WIN_NUM,parms.get("winnum"));
                     break;
-                case "/queue":
+                case "/queue": //排队号
                     MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_QUEUE,parms.get("queue"));
                     break;
+                case "/sdn_customize": //自定义函数
+                    MainHandler.SendMessage(MainHandler.MESSTYPE.SDN_CUSTOMIZE,parms.get("sdn_customize"));
+                    break;
+                case"/url": //更换webview 的URL地址
+                    MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_URL,parms.get("url"));
+                    break;
+                case"/url_save":
+                    MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_URL,parms.get("url_save"));
+                    break;
+                case "/update":
+                    MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_URL,post_param);
+                    break;
+                case "/add":
+                    MainHandler.SendMessage(MainHandler.MESSTYPE.MODIFY_URL,post_param);
+                    break;
+
                 default: {
                     return addHeaderResponse(Status.REQUEST_ERROR_API);
                 }
