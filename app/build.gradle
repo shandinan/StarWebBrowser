@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('D:\\adt-bundle-windows\\starAndroid.jks')
+            storePassword 'Star111'
+            keyAlias = 'star'
+            keyPassword 'Star111'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.star.starwebbrowser"
