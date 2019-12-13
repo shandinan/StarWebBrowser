@@ -71,7 +71,8 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
         // webView.loadUrl("file:///android_asset/start.html");
         String strWebUrl = SPUtils.readString(MainActivity.this, "web_url");
         if (strWebUrl == null || "".equals(strWebUrl)) {
-            webView.loadUrl("file:///android_asset/start.html");
+          //  webView.loadUrl("file:///android_asset/start.html");
+            webView.loadUrl("file:///android_asset/QueueShow_TV.html");
         } else {
             webView.loadUrl(strWebUrl);
         }
