@@ -144,11 +144,12 @@ html, body {
 }
 .boder-right {
     position: relative;
-    right: 10%;
+    /* right: 10%;*/ /*张家港居中*/
     top: 102px;
     width: 610px;
     height: 450px;
-    float: right;
+    /* float: right; */ /*张家港居中*/
+    margin: 0 auto; /*张家港居中*/
     text-align: center
 }
 .right-window{
