@@ -1,33 +1,19 @@
 package com.star.starwebbrowser.activity;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.*;
-import android.support.v7.app.AlertDialog;
-import android.util.JsonReader;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
-import android.widget.Button;
-import android.widget.Toast;
-import com.google.gson.JsonObject;
 import com.star.library.jsbridge.BridgeHandler;
 import com.star.library.jsbridge.BridgeWebView;
 import com.star.library.jsbridge.CallBackFunction;
 import com.star.library.jsbridge.DefaultHandler;
-import com.google.gson.Gson;
 import com.star.starwebbrowser.R;
-import com.star.starwebbrowser.event.AbstractDelegation;
-import com.star.starwebbrowser.event.EventHandler;
 import com.star.starwebbrowser.event.MainHandler;
 import com.star.starwebbrowser.save.SPUtils;
 import com.star.starwebbrowser.service.HttpServer;
-import fi.iki.elonen.util.ServerRunner;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 public class MainActivity extends SuperActivity implements View.OnClickListener {
