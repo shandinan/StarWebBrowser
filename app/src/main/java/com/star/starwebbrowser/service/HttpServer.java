@@ -1,17 +1,9 @@
 package com.star.starwebbrowser.service;
 
-import android.widget.Toast;
 import com.star.library.jsbridge.BridgeWebView;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.star.library.jsbridge.CallBackFunction;
-import com.star.starwebbrowser.activity.MainActivity;
 import com.star.starwebbrowser.event.MainHandler;
 import fi.iki.elonen.NanoHTTPD;
 
