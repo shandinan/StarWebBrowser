@@ -58,8 +58,10 @@
 <script type="text/javascript">
         var app = angular.module('myapp', []);
         app.controller('myctrl', function ($scope, $interval, $timeout) {
-            $scope.queue = ["请A001到1号窗口办理", "请A002到1号窗口办理", "请A003到1号窗口办理", "请A004到1号窗口办理", "请A005到1号窗口办理", "请A006到1号窗口办理"]; //办理队列
-            $scope.sdnWait = [['A006', 'A007', 'A008', 'A009'], ['A010', 'A011']] //等待队列
+           // $scope.queue = ["请A001到1号窗口办理", "请A002到1号窗口办理", "请A003到1号窗口办理", "请A004到1号窗口办理", "请A005到1号窗口办理", "请A006到1号窗口办理"]; //办理队列
+            $scope.queue = []; //办理队列
+         //   $scope.sdnWait = [['A006', 'A007', 'A008', 'A009'], ['A010', 'A011']] //等待队列
+            $scope.sdnWait = [] //等待队列
             $scope.title = "请注意听报号语音，核对手中小票，过号不侯。";
             $scope.person_num = 0;//等待人数
             $scope.JsonData = { "count": 0, "done": [], "wait": "" };//当前显示json
@@ -85,37 +87,39 @@
             //获取$scope变量
             var $scope = angular.element(appElement).scope();
             //  alert(data);
-            var JsonData = JSON.parse(data);
-            $scope.JsonData = JsonData;
-            var arrWait = JsonData.wait.split(','); //得到等待队列
-            //  alert(arrWait);
-            var row_json = [];//每行小json
-            var wait_json = [];//等待排队信息
-            var i_row = 0;
-            for (var i = 0; i < arrWait.length; i++) {
-                i_row++;
-                row_json.push(arrWait[i]);
-                if (i_row == 4) {
+            $scope.$apply(function () {
+                var JsonData = JSON.parse(data);
+                $scope.JsonData = JsonData;
+                var arrWait = JsonData.wait.split(','); //得到等待队列
+                //  alert(arrWait);
+                var row_json = [];//每行小json
+                var wait_json = [];//等待排队信息
+                var i_row = 0;
+                for (var i = 0; i < arrWait.length; i++) {
+                    i_row++;
+                    row_json.push(arrWait[i]);
+                    if (i_row == 4) {
+                        i_row = 0;
+                        wait_json.push(row_json);
+                        row_json = [];
+                    }
+                }
+                if (i_row != 0) {
                     i_row = 0;
                     wait_json.push(row_json);
                     row_json = [];
                 }
-            }
-            if (i_row != 0) {
-                i_row = 0;
-                wait_json.push(row_json);
-                row_json = [];
-            }
 
-            $scope.sdnWait = wait_json;
-            //  alert(wait_json);
-            var arr_done = [];
-            var tmp_done = JsonData.done; //得到已经完成的数据
-            for (var i = 0; i < tmp_done.length; i++) {
-                arr_done.push("请" + tmp_done[i].que_no + "号到" + tmp_done[i].win_no + "号窗口办理业务");
-            }
-            $scope.queue = arr_done;
-            $scope.person_num = JsonData.count;
+                $scope.sdnWait = wait_json;
+                //  alert(wait_json);
+                var arr_done = [];
+                var tmp_done = JsonData.done; //得到已经完成的数据
+                for (var i = 0; i < tmp_done.length; i++) {
+                    arr_done.push("请" + tmp_done[i].que_no + "号到" + tmp_done[i].win_no + "号窗口办理业务");
+                }
+                $scope.queue = arr_done;
+                $scope.person_num = JsonData.count;
+            });
         }
         //新增取票
         var add_queue = function (data) {
@@ -125,21 +129,23 @@
             var appElement = document.querySelector('[ng-controller=myctrl]');
             //获取$scope变量
             var $scope = angular.element(appElement).scope();
-            var addJson = JSON.parse(data);
-            var jsonData = $scope.JsonData;//拿到页面jsonData
-            var tmp_add_queue;
-            if (jsonData.wait == "") { //如果等于空
-                tmp_add_queue = addJson.wait;
-            } else {
-                tmp_add_queue = jsonData.wait + "," + addJson.wait;
-            }
+            $scope.$apply(function () {
+                var addJson = JSON.parse(data);
+                var jsonData = $scope.JsonData;//拿到页面jsonData
+                var tmp_add_queue;
+                if (jsonData.wait == "") { //如果等于空
+                    tmp_add_queue = addJson.wait;
+                } else {
+                    tmp_add_queue = jsonData.wait + "," + addJson.wait;
+                }
 
-            jsonData.wait = tmp_add_queue;
-            jsonData.count = addJson.count;
-            $scope.person_num = addJson.count;
-            //  alert(tmp_add_queue);
-            // alert(JSON.stringify(jsonData));
-            update_queue(JSON.stringify(jsonData));
+                jsonData.wait = tmp_add_queue;
+                jsonData.count = addJson.count;
+                $scope.person_num = addJson.count;
+                //  alert(tmp_add_queue);
+                // alert(JSON.stringify(jsonData));
+                update_queue(JSON.stringify(jsonData));
+            });
         }
 
         function connectWebViewJavascriptBridge(callback) {
