@@ -70,7 +70,7 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
             public void handler(String data, CallBackFunction function) {
                 //data js请求java参数
                 //拼接返回值
-                String strResJson = "{\"title\":\"请先配置基础数据\",\"photo\":\"staticfile/images/photo.png\",\"gh\":\"123456\",\"winnum\":\"1\",\"queue\":\"1888\"}";
+                String strResJson = "{\"title\":\"请先配置基础数据\",\"photo\":\"staticfile/images/photo.png\",\"gh\":\"123456\",\"winnum\":\"1\",\"queue\":\"A001\"}";
                 String tmp_title = SPUtils.readString(MainActivity.this, "html_title"); //标题头
                 if (tmp_title == null || "".equals(tmp_title)) { //如果为空或者null
                     //提示先配置
@@ -82,6 +82,17 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
                             temp_gh, temp_winnum, "1888");
                 }
                 function.onCallBack(strResJson); //响应JS请求
+            }
+        });
+
+        webView.registerHandler("sdnStop", new BridgeHandler() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                try{
+                    finish();
+                    System.exit(0);//退出ap
+                }catch (Exception ex) {
+                }
             }
         });
 
@@ -214,6 +225,12 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
                             //   Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
                         }
                     });
+                    break;
+                case SDN_STOP://停止浏览器
+                    try{
+                        finish();
+                        System.exit(0);//退出ap
+                    }catch(Exception ex){}
                     break;
                 default:
                     break;

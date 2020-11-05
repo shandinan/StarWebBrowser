@@ -106,6 +106,7 @@ public class SuperActivity extends Activity implements View.OnClickListener {
                 Log.d(TAG,"voice mute--->");
                 break;
             default:
+                Log.d(TAG,keyCode+"");
                 break;
         }
         return super.onKeyDown(keyCode, event);

@@ -100,7 +100,9 @@ public class HttpServer extends NanoHTTPD {
                 case "/add":
                     MainHandler.SendMessage(MainHandler.MESSTYPE.SDN_ADD, post_param);
                     break;
-
+                case "/stop": //退出系统
+                    MainHandler.SendMessage(MainHandler.MESSTYPE.SDN_STOP,post_param);
+                    break;
                 default: {
                     return addHeaderResponse(Status.REQUEST_ERROR_API);
                 }

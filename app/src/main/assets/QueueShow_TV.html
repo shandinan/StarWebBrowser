@@ -25,72 +25,123 @@
 
     <div class="row-fluid">
         <div class="span12">
-            <h3 class="text-center">
-                <strong style=" font-size: 160px;">{{title}}</strong>
-            </h3>
+            <h1 class="text-center">
+                <strong>{{title}}</strong>
+            </h1>
         </div>
     </div>
-    <div style="width:100px;height:300px">
+    <div class="row-fluid">
+        <div class="span12" style="height:5%;">
+
+        </div>
+    </div>
+    <div class="row-fluid text-center" style="height:50%">
+        <div class="span12" style="margin-top:40px;" ng-repeat="x in queue">
+            <h1>
+                <strong style="font-size:9rem;">{{x}}</strong>
+            </h1>
+        </div>
+    </div>
+    <div class="row-fluid" text-left>
+        <h1><strong>待叫号人员,当前有<b style="color:yellow">{{person_num}}</b>人等待</strong></h1>
+    </div>
+    <div class="row-fluid text-center" ng-repeat="arr in sdnWait">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" ng-repeat="x in arr">
+            <h2>
+                <strong style="font-size:5rem;">{{x}}</strong>
+            </h2>
+        </div>
 
     </div>
-    <div class="row-fluid text-center" style="margin-top:70px;">
-        <strong style=" font-size: 160px;">请{{queue_no}}办理</strong>
-    </div>
-
 </div>
 
 <script type="text/javascript">
         var app = angular.module('myapp', []);
         app.controller('myctrl', function ($scope, $interval, $timeout) {
-            $scope.title = "1号窗口";
-            $scope.queue_no = "A001"
+            $scope.queue = ["请A001到1号窗口办理", "请A002到1号窗口办理", "请A003到1号窗口办理", "请A004到1号窗口办理", "请A005到1号窗口办理", "请A006到1号窗口办理"]; //办理队列
+            $scope.sdnWait = [['A006', 'A007', 'A008', 'A009'], ['A010', 'A011']] //等待队列
+            $scope.title = "请注意听报号语音，核对手中小票，过号不侯。";
+            $scope.person_num = 0;//等待人数
+            $scope.JsonData = { "count": 0, "done": [], "wait": "" };//当前显示json
             $interval(function () {
-                // $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
-                $scope.time = new Date();
-                $scope.Realtime_ymd = datetimeFormat_ymd($scope.time); //年月日
-                $scope.Realtime_hms = datetimeFormat_hms($scope.time);//星期  时分秒
-            }, 1000);
-            $timeout(function () {
-                window.WebViewJavascriptBridge.callHandler(
-                    'InitShowMsg', { 'param': '2222' },
-                    function (responseData) {
-                        var res_json = JSON.parse(responseData);
-                        $scope.title = res_json["title"];
-                      //  $scope.jobNumber = res_json["gh"];//工号
-                        $scope.queue_no = "A888"; //排队号
-                     //   $scope.win_num = res_json["winnum"];//窗口号
-                      //  $scope.photo = res_json["photo"];//头像照片
-                    }
-                );
-            }, 1500);
-
+                var last = $scope.title.substr(0, 2);
+                $scope.title = $scope.title.substr(2) + last;
+            }, 500);
         });
 
         //修改标题头
         var modify_title = function (title) {
-            //alert(title);
             //通过controller来获取Angular应用
             var appElement = document.querySelector('[ng-controller=myctrl]');
             //获取$scope变量
             var $scope = angular.element(appElement).scope();
-            //  alert($scope.title);
-            //  $scope.title = "12号窗口";
-            // alert($scope.title);
-            $scope.$apply(function () {
-                $scope.title = title;
-            });
+            // alert($scope.titl_msg);
+            $scope.title = title;
         }
-        //修改排队号
-        var modify_queue = function (queue) {
+        //更新排队信息
+        var update_queue = function (data) {
             //通过controller来获取Angular应用
             var appElement = document.querySelector('[ng-controller=myctrl]');
             //获取$scope变量
             var $scope = angular.element(appElement).scope();
-            //  $scope.queue_no = queue;
-            $scope.$apply(function () {
-                $scope.queue_no = queue;
-            });
+            //  alert(data);
+            var JsonData = JSON.parse(data);
+            $scope.JsonData = JsonData;
+            var arrWait = JsonData.wait.split(','); //得到等待队列
+            //  alert(arrWait);
+            var row_json = [];//每行小json
+            var wait_json = [];//等待排队信息
+            var i_row = 0;
+            for (var i = 0; i < arrWait.length; i++) {
+                i_row++;
+                row_json.push(arrWait[i]);
+                if (i_row == 4) {
+                    i_row = 0;
+                    wait_json.push(row_json);
+                    row_json = [];
+                }
+            }
+            if (i_row != 0) {
+                i_row = 0;
+                wait_json.push(row_json);
+                row_json = [];
+            }
+
+            $scope.sdnWait = wait_json;
+            //  alert(wait_json);
+            var arr_done = [];
+            var tmp_done = JsonData.done; //得到已经完成的数据
+            for (var i = 0; i < tmp_done.length; i++) {
+                arr_done.push("请" + tmp_done[i].que_no + "号到" + tmp_done[i].win_no + "号窗口办理业务");
+            }
+            $scope.queue = arr_done;
+            $scope.person_num = JsonData.count;
         }
+        //新增取票
+        var add_queue = function (data) {
+            // debugger;
+            //  data = '{ "count": 7, "wait": "A1002,A1003,A2003,A2004,A2005,A3001,A3002" }';
+            //通过controller来获取Angular应用
+            var appElement = document.querySelector('[ng-controller=myctrl]');
+            //获取$scope变量
+            var $scope = angular.element(appElement).scope();
+            var addJson = JSON.parse(data);
+            var jsonData = $scope.JsonData;//拿到页面jsonData
+            var tmp_add_queue;
+            if (jsonData.wait == "") { //如果等于空
+                tmp_add_queue = addJson.wait;
+            } else {
+                tmp_add_queue = jsonData.wait + "," + addJson.wait;
+            }
+
+            jsonData.wait = tmp_add_queue;
+            jsonData.count = addJson.count;
+            $scope.person_num = addJson.count;
+            //  alert(tmp_add_queue);
+            // alert(JSON.stringify(jsonData));
+            update_queue(JSON.stringify(jsonData));
+        }
+
         function connectWebViewJavascriptBridge(callback) {
             if (window.WebViewJavascriptBridge) {
                 callback(WebViewJavascriptBridge)
@@ -119,27 +170,29 @@
                 var responseData = "修改显示标头";
                 responseCallback(responseData);
             });
-            bridge.registerHandler("modify_photo", function (data, responseCallback) {
-                modify_photo(data);
-                var responseData = "修改照片";
+            bridge.registerHandler("update_queue", function (data, responseCallback) {
+                update_queue(data);
+                var responseData = "更新排队信息";
                 responseCallback(responseData);
             });
-            bridge.registerHandler("modify_gh", function (data, responseCallback) {
-                modify_gh(data);
-                var responseData = "修改工号";
-                responseCallback(responseData);
-            });
-            bridge.registerHandler("modify_winnum", function (data, responseCallback) {
-                modify_winNum(data);
-                var responseData = "修改窗口号";
-                responseCallback(responseData);
-            });
-            bridge.registerHandler("modify_queue", function (data, responseCallback) {
-                modify_queue(data);
-                var responseData = "修改排队号";
+            bridge.registerHandler("add_queue", function (data, responseCallback) {
+                add_queue(data);
+                var responseData = "新增取票信息信息";
                 responseCallback(responseData);
             });
         });
+        document.oncontextmenu = function (e) {
+            //点击右键后要执行的代码
+            //.......
+            //右键关闭浏览器
+            window.WebViewJavascriptBridge.callHandler(
+                'sdnStop', { 'param': '2222' },
+                function (responseData) {
+
+                }
+            );
+            return false;//阻止浏览器的默认弹窗行为
+        }
     </script>
 
 </body>

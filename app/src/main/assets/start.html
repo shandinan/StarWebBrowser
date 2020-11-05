@@ -1,141 +1,85 @@
-﻿<!doctype html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>主页</title>
+    <meta charset="utf-8" />
+    <title>排队显示</title>
     <script src="staticfile/js/jquery-3.1.1.min.js"></script>
     <script src="staticfile/js/bootstrap.js"></script>
     <script src="staticfile/js/sdxk-date.js"></script>
     <script src="staticfile/js/angular.min.js"></script>
     <link href="staticfile/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="staticfile/css/common.css">
-    <link rel="stylesheet" href="staticfile/css/HomePage.css">
     <style>
-        .head_font {
-            font-size: 70px;
-            font-family: 微软雅黑;
-            font-weight: 500;
-            color: white;
-            line-height: 30px;
-            opacity: 0.9;
+        body {
+            background-color: black;
+            color: red;
+        }
+
+        .top_row {
+            height: 50%;
+            width: 100%;
         }
     </style>
 </head>
-<body ng-app="myapp" ng-controller="myctrl" style="zoom:66.67%">
-    <div class="header">
-        <div style="float:left;width:100px;">
-            <img id="homeimg" src="./staticfile/images/xqw/logo.png" alt="logo" class="logos">
-        </div>
-        <div style="float:left;width:705px; position: absolute;left:150px;top:60px;">
-            <strong class="head_font">{{titl_msg}}</strong>
-        </div>
-        <div class="" style="height:100px;margin-bottom:0px;">
-            <div class="pull-right" style="margin-right:3%;position:absolute;top:30px;right:0;">
-                <strong class="RealTime2" ng-bind="Realtime_ymd"></strong>
-                <br />
-                <span class="RealTime1" ng-bind="Realtime_hms"></span>
-            </div>
+<body ng-app="myapp" ng-controller="myctrl">
+<div class="container-fluid">
+
+    <div class="row-fluid">
+        <div class="span12">
+            <h1 class="text-center">
+                <strong style=" font-size: 200px;">&nbsp; &nbsp; &nbsp; &nbsp;{{title}} &nbsp; &nbsp; &nbsp; &nbsp;</strong>
+            </h1>
         </div>
     </div>
-    <div class="boder">
-
-        <div class="boder-left" ng-hide="true">
-            <!--/*张家港居中，不要头像图片，隐藏该div*/-->
-            <img class="header-photo" src="{{photo}}" />
-            <div class="header-gh">
-                &nbsp;<strong style="font-size:50px;">工号</strong>
-                <strong>{{jobNumber}}</strong>
-            </div>
-        </div>
-
-        <div class="boder-right">
-            <div class="right-window">
-                <div class="window-no"><strong>{{win_num}}</strong></div>
-                <div class="window-name">
-                    <strong class="window_name-info">号窗口</strong>
-                </div>
-            </div>
-            <div class="right-queue">
-                <strong class="queue-qh">请&nbsp;</strong>
-                <strong class="queue-num">{{queue_no}}</strong>
-                <strong class="queue-qh">&nbsp;号</strong>
-            </div>
-            <div>
-
-            </div>
-        </div>
+    <div style="width:100px;height:100px">
 
     </div>
+    <div class="row-fluid text-center" style="margin-top:70px;">
+        <strong style=" font-size: 230px;">请{{queue_no}}办理业务</strong>
+    </div>
 
-    <script type="text/javascript">
+</div>
+
+<script type="text/javascript">
         var app = angular.module('myapp', []);
         app.controller('myctrl', function ($scope, $interval, $timeout) {
-            $scope.titl_msg = "标准 高效 规范 便民";
-            $scope.time = new Date();
-            $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
-            //$scope.Realtime = datetimeFormatFromDate($scope.time);
-            $scope.Realtime_ymd = datetimeFormat_ymd($scope.time); //年月日
-            $scope.Realtime_hms = datetimeFormat_hms($scope.time);//星期  时分秒
-            $scope.jobNumber = "123456";//工号
-            $scope.queue_no = "1888"; //排队号
-            $scope.win_num = "1";//窗口号
-            $scope.photo = "staticfile/images/photo.png";//头像照片
-            //计时器
+            $scope.title = "1号窗口 ";
+            $scope.queue_no = "A001"
             $interval(function () {
                 // $scope.time = new Date($scope.time.setSeconds($scope.time.getSeconds() + 1));
                 $scope.time = new Date();
                 $scope.Realtime_ymd = datetimeFormat_ymd($scope.time); //年月日
                 $scope.Realtime_hms = datetimeFormat_hms($scope.time);//星期  时分秒
             }, 1000);
+
             $timeout(function () {
                 window.WebViewJavascriptBridge.callHandler(
                     'InitShowMsg', { 'param': '2222' },
                     function (responseData) {
                         var res_json = JSON.parse(responseData);
-                        $scope.titl_msg = res_json["title"];
-                        $scope.jobNumber = res_json["gh"];//工号
-                        $scope.queue_no = "1888"; //排队号
-                        $scope.win_num = res_json["winnum"];//窗口号
-                        $scope.photo = res_json["photo"];//头像照片
+                        $scope.title = res_json["title"];
+                        //  $scope.jobNumber = res_json["gh"];//工号
+                        $scope.queue_no = "A888"; //排队号
+                        //   $scope.win_num = res_json["winnum"];//窗口号
+                        //  $scope.photo = res_json["photo"];//头像照片
                     }
                 );
             }, 1500);
-
 
         });
 
         //修改标题头
         var modify_title = function (title) {
+            //alert(title);
             //通过controller来获取Angular应用
             var appElement = document.querySelector('[ng-controller=myctrl]');
             //获取$scope变量
             var $scope = angular.element(appElement).scope();
-            // alert($scope.titl_msg);
-            $scope.titl_msg = title;
-        }
-        //修改照片
-        var modify_photo = function (url) {
-            //通过controller来获取Angular应用
-            var appElement = document.querySelector('[ng-controller=myctrl]');
-            //获取$scope变量
-            var $scope = angular.element(appElement).scope();
-            $scope.photo = url;
-        }
-        //修改工号
-        var modify_gh = function (num) {
-            //通过controller来获取Angular应用
-            var appElement = document.querySelector('[ng-controller=myctrl]');
-            //获取$scope变量
-            var $scope = angular.element(appElement).scope();
-            $scope.jobNumber = num;
-        }
-        //修改窗口号
-        var modify_winNum = function (num) {
-            //通过controller来获取Angular应用
-            var appElement = document.querySelector('[ng-controller=myctrl]');
-            //获取$scope变量
-            var $scope = angular.element(appElement).scope();
-            $scope.win_num = num;
+            //  alert($scope.title);
+            //  $scope.title = "12号窗口";
+            // alert($scope.title);
+            $scope.$apply(function () {
+                $scope.title = title;
+            });
         }
         //修改排队号
         var modify_queue = function (queue) {
@@ -143,10 +87,11 @@
             var appElement = document.querySelector('[ng-controller=myctrl]');
             //获取$scope变量
             var $scope = angular.element(appElement).scope();
-            $scope.queue_no = queue;
+            //  $scope.queue_no = queue;
+            $scope.$apply(function () {
+                $scope.queue_no = queue;
+            });
         }
-
-
         function connectWebViewJavascriptBridge(callback) {
             if (window.WebViewJavascriptBridge) {
                 callback(WebViewJavascriptBridge)
@@ -175,16 +120,7 @@
                 var responseData = "修改显示标头";
                 responseCallback(responseData);
             });
-            bridge.registerHandler("modify_photo", function (data, responseCallback) {
-                modify_photo(data);
-                var responseData = "修改照片";
-                responseCallback(responseData);
-            });
-            bridge.registerHandler("modify_gh", function (data, responseCallback) {
-                modify_gh(data);
-                var responseData = "修改工号";
-                responseCallback(responseData);
-            });
+
             bridge.registerHandler("modify_winnum", function (data, responseCallback) {
                 modify_winNum(data);
                 var responseData = "修改窗口号";
@@ -196,8 +132,19 @@
                 responseCallback(responseData);
             });
         });
+        document.oncontextmenu = function (e) {
+            //点击右键后要执行的代码
+            //.......
+            //右键关闭浏览器
+            window.WebViewJavascriptBridge.callHandler(
+                'sdnStop', { 'param': '2222' },
+                function (responseData) {
+
+                }
+            );
+            return false;//阻止浏览器的默认弹窗行为
+        }
     </script>
 
 </body>
-
 </html>
