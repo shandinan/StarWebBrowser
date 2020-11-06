@@ -38,7 +38,7 @@
     <div class="row-fluid text-center" style="height:50%">
         <div class="span12" style="margin-top:40px;" ng-repeat="x in queue">
             <h1>
-                <strong style="font-size:9rem;">{{x}}</strong>
+                <strong style="font-size:7rem;">{{x}}</strong>
             </h1>
         </div>
     </div>
@@ -190,6 +190,7 @@
         document.oncontextmenu = function (e) {
             //点击右键后要执行的代码
             //.......
+             alert("浏览器即将关闭");
             //右键关闭浏览器
             window.WebViewJavascriptBridge.callHandler(
                 'sdnStop', { 'param': '2222' },

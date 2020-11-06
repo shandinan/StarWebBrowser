@@ -26,15 +26,12 @@
     <div class="row-fluid">
         <div class="span12">
             <h1 class="text-center">
-                <strong style=" font-size: 200px;">&nbsp; &nbsp; &nbsp; &nbsp;{{title}} &nbsp; &nbsp; &nbsp; &nbsp;</strong>
+                <strong style=" font-size: 140px;">&nbsp; &nbsp;{{title}}  &nbsp; &nbsp;</strong>
             </h1>
         </div>
     </div>
-    <div style="width:100px;height:100px">
-
-    </div>
     <div class="row-fluid text-center" style="margin-top:70px;">
-        <strong style=" font-size: 230px;">请{{queue_no}}办理业务</strong>
+        <strong style=" font-size: 126px;">请{{queue_no}}办理业务</strong>
     </div>
 
 </div>
@@ -135,6 +132,7 @@
         document.oncontextmenu = function (e) {
             //点击右键后要执行的代码
             //.......
+            alert("浏览器即将关闭");
             //右键关闭浏览器
             window.WebViewJavascriptBridge.callHandler(
                 'sdnStop', { 'param': '2222' },
