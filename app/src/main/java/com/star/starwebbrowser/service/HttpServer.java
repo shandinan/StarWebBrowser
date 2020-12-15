@@ -5,7 +5,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import com.star.starwebbrowser.event.MainHandler;
-import fi.iki.elonen.NanoHTTPD;
+
+import org.nanohttpd.protocols.http.IHTTPSession;
+import org.nanohttpd.protocols.http.NanoHTTPD;
+import org.nanohttpd.protocols.http.response.IStatus;
+import org.nanohttpd.protocols.http.response.Response;
+
+import static org.nanohttpd.protocols.http.response.Response.newFixedLengthResponse;
 
 
 public class HttpServer extends NanoHTTPD {
@@ -16,7 +22,7 @@ public class HttpServer extends NanoHTTPD {
     BridgeWebView webView;//全局webView
     //NanoFileUpload uploader;
 
-    public enum Status implements NanoHTTPD.Response.IStatus {
+    public enum Status implements IStatus {
         REQUEST_ERROR(500, "请求失败"),
         REQUEST_ERROR_API(501, "无效的请求接口"),
         REQUEST_ERROR_CMD(502, "无效命令");
@@ -121,7 +127,7 @@ public class HttpServer extends NanoHTTPD {
      * @param status
      * @return
      */
-    private Response addHeaderResponse(Response.IStatus status) {
+    private Response addHeaderResponse(IStatus status) {
         Response response = null;
         response = newFixedLengthResponse(status, "application/json", "msg");
         response.addHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Content-Type");

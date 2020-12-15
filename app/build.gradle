@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         debug {
-            storeFile file('E:\\adt-bundle-windows\\starAndroid.jks')
+            storeFile file('D:\\adt-bundle-windows\\starAndroid.jks')
             storePassword 'Star111'
             keyAlias = 'star'
             keyPassword 'Star111'
@@ -35,5 +35,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(':library')
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'org.nanohttpd:nanohttpd:2.3.1'
+    //implementation 'org.nanohttpd:nanohttpd:2.3.1'
+    implementation 'com.gitee.l0km:nanohttpd:2.3.4'
 }
