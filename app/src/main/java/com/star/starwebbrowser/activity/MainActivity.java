@@ -36,6 +36,7 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
         webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setJavaScriptEnabled(true);
         /* ** 配置浏览器缓存*/
         webView.setDefaultHandler(new DefaultHandler());
         webView.setWebChromeClient(new WebChromeClient() {
