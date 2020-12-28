@@ -4,6 +4,7 @@ import android.os.*;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+
 import com.star.library.jsbridge.BridgeHandler;
 import com.star.library.jsbridge.BridgeWebView;
 import com.star.library.jsbridge.CallBackFunction;
@@ -12,6 +13,7 @@ import com.star.starwebbrowser.R;
 import com.star.starwebbrowser.event.MainHandler;
 import com.star.starwebbrowser.save.SPUtils;
 import com.star.starwebbrowser.service.HttpServer;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -58,8 +60,9 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
         // webView.loadUrl("file:///android_asset/start.html");
         String strWebUrl = SPUtils.readString(MainActivity.this, "web_url");
         if (strWebUrl == null || "".equals(strWebUrl)) {
-          // webView.loadUrl("file:///android_asset/start.html");
-            webView.loadUrl("file:///android_asset/QueueShow_TV.html");
+            // webView.loadUrl("file:///android_asset/start.html");
+               webView.loadUrl("file:///android_asset/QueueShow_TV.html");
+           // webView.loadUrl("http://50.74.162.4/QueuingWeb/QueueShow_TV_xc.html");
         } else {
             webView.loadUrl(strWebUrl);
         }
@@ -89,10 +92,10 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
         webView.registerHandler("sdnStop", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
-                try{
+                try {
                     finish();
                     System.exit(0);//退出ap
-                }catch (Exception ex) {
+                } catch (Exception ex) {
                 }
             }
         });
@@ -228,10 +231,11 @@ public class MainActivity extends SuperActivity implements View.OnClickListener 
                     });
                     break;
                 case SDN_STOP://停止浏览器
-                    try{
+                    try {
                         finish();
                         System.exit(0);//退出ap
-                    }catch(Exception ex){}
+                    } catch (Exception ex) {
+                    }
                     break;
                 default:
                     break;
